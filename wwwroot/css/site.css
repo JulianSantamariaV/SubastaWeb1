@@ -50,3 +50,7 @@ body {
     overflow: hidden;
     height: 3em;
 }
+
+a {
+    color: seagreen;
+}

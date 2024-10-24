@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace SubastaWeb.Migrations
 {
     [DbContext(typeof(SubastaWebContext))]
-    [Migration("20241024014637_UpdateDecimalPrecision")]
-    partial class UpdateDecimalPrecision
+    [Migration("20241024072032_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

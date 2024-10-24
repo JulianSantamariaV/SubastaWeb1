@@ -1,7 +1,7 @@
 ﻿namespace SubastaWeb.Models.Producto
 {
     public class ProductoModelDBO : Producto
-    {      
+    {
         public int IdProducto { get; set; }
         public required string Titulo { get; set; }
         public required string Descripcion { get; set; }

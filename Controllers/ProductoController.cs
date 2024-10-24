@@ -61,6 +61,11 @@ namespace SubastaWeb.Controllers
                     // Usar el factory para crear el tipo de producto adecuado
                     var producto = ProductoFactory.CrearProducto(productosDBO.Categoria);
 
+                    if (producto == null)
+                    {
+                        throw new Exception("No se pudo crear el producto, verifique la categoría.");
+                    }
+
                     // Asignar propiedades desde el modelo a la entidad de producto
                     producto.Titulo = productosDBO.Titulo;
                     producto.Descripcion = productosDBO.Descripcion;
@@ -85,14 +90,16 @@ namespace SubastaWeb.Controllers
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch (ArgumentException ex)
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError("", ex.Message);
+                    // Mostrar el error específico en la vista
+                    ModelState.AddModelError("", "Error al crear el producto: " + ex.Message);
                 }
             }
 
             return View(productosDBO);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)

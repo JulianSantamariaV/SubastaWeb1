@@ -1,34 +1,40 @@
-﻿namespace SubastaWeb.Models.Subasta
+﻿using System;
+using System.Timers;
+
+namespace SubastaWeb.Models.Subasta
 {
     public class SubastaAscendente : IStrategySubasta
     {
         private decimal ofertaAnterior;
         private DateTime ultimaOferta;
+        private System.Timers.Timer timer;
 
-        public bool Activa => throw new NotImplementedException();
-
-        public void RealizarOferta(decimal cantidad)
-        {
-            if (cantidad > ofertaAnterior)
-            {
-                ofertaAnterior = cantidad;
-                ultimaOferta = DateTime.Now;
-                // Lógica para actualizar la subasta y manejar ofertas
-            }
-            else
-            {
-                throw new Exception("La oferta debe ser mayor que la anterior.");
-            }
-        }
-
+        public bool Activa { get; private set; }
         public void CerrarSubasta()
         {
-            // Lógica para cerrar la subasta si no hay nuevas ofertas en un tiempo determinado
+            if (Activa)
+            {
+                Activa = false;
+                timer.Stop();
+                Console.WriteLine("Subasta cerrada automáticamente después de 5 minutos.");
+                // Lógica para adjudicar el producto o manejar el cierre
+            }
         }
 
         public void IniciarSubasta()
         {
-            throw new NotImplementedException();
+            // Configurar el temporizador para 5 minutos
+            timer = new System.Timers.Timer(300000);
+            timer.Elapsed += OnTiempoTerminado;
+            timer.AutoReset = false; // Solo se ejecuta una vez
+            Activa = true;
+            timer.Start();
+            Console.WriteLine("Subasta iniciada. Se cerrará en 5 minutos.");
+        }
+
+        private void OnTiempoTerminado(object source, ElapsedEventArgs e)
+        {
+            CerrarSubasta();
         }
     }
 }
