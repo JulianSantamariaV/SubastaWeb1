@@ -79,6 +79,10 @@ namespace SubastaWeb.Controllers
                     _context.Add(producto);
                     await _context.SaveChangesAsync();
 
+                    // Crear la subasta basada en el tipo de subasta
+                    var subasta = SubastaFactory.CrearSubasta(productosDBO.TipoDeSubasta);
+                    subasta.IniciarSubasta(); // Método para iniciar la subasta
+
                     return RedirectToAction(nameof(Index));
                 }
                 catch (ArgumentException ex)
@@ -209,6 +213,33 @@ namespace SubastaWeb.Controllers
         private bool ProductoExists(int id)
         {
             return _context.Productos.Any(e => e.IdProducto == id);
+        }
+
+        public async Task<IActionResult> SubastaAscendente()
+        {
+            var productos = await _context.Productos
+                .Where(p => p.TipoDeSubasta.ToLower() == "ascendente")
+                .ToListAsync();
+
+            return View(productos);
+        }
+
+        public async Task<IActionResult> SubastaDescendente()
+        {
+            var productos = await _context.Productos
+                .Where(p => p.TipoDeSubasta.ToLower() == "descendente")
+                .ToListAsync();
+
+            return View(productos);
+        }
+
+        public async Task<IActionResult> SubastaCerrada()
+        {
+            var productos = await _context.Productos
+                .Where(p => p.TipoDeSubasta.ToLower() == "cerrada")
+                .ToListAsync();
+
+            return View(productos);
         }
     }
 }

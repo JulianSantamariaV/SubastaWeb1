@@ -1,0 +1,29 @@
+﻿@model IEnumerable<SubastaWeb.Models.Producto.Producto>
+
+<h2>Subasta Cerrada</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Precio Inicial</th>
+            <th>Fecha de Caducidad</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Titulo)</td>
+                <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                <td>@Html.DisplayFor(modelItem => item.PrecioInicial)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaCaducidad)</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.IdProducto">Ver detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
