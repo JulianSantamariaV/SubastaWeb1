@@ -1,14 +1,16 @@
-﻿using System;
+﻿using SubastaWeb.Models.Producto;
+using SubastaWeb.Models.Usuario;
+using System;
 using System.Timers;
+using System.Web.Mvc;
 
 namespace SubastaWeb.Models.Subasta
 {
     public class SubastaAscendente : IStrategySubasta
     {
         private decimal ofertaAnterior;
-        private DateTime ultimaOferta;
+        private DateTime inicioSubasta;
         private System.Timers.Timer timer;
-
         public bool Activa { get; private set; }
         public void CerrarSubasta()
         {
@@ -23,6 +25,8 @@ namespace SubastaWeb.Models.Subasta
 
         public void IniciarSubasta()
         {
+            // Tomar el tiempo
+            inicioSubasta = DateTime.Now;
             // Configurar el temporizador para 5 minutos
             timer = new System.Timers.Timer(300000);
             timer.Elapsed += OnTiempoTerminado;
@@ -30,6 +34,30 @@ namespace SubastaWeb.Models.Subasta
             Activa = true;
             timer.Start();
             Console.WriteLine("Subasta iniciada. Se cerrará en 5 minutos.");
+        }
+
+        public TimeSpan ObtenerTiempoTranscurrido()
+        {
+            if (Activa)
+            {
+                return DateTime.Now - inicioSubasta;
+            }
+            else
+            {
+                return TimeSpan.Zero;
+            }
+        }
+
+        public void RealizarOferta(ProductoModelDBO producto, decimal oferta, UsuarioModelDBO usuario)
+        {
+            if (oferta > producto.PrecioFinal)
+            {
+                producto.PrecioFinal = oferta;                
+            }
+            else
+            {
+                throw new Exception("La oferta debe ser mayor al precio actual.");
+            }
         }
 
         private void OnTiempoTerminado(object source, ElapsedEventArgs e)

@@ -9,7 +9,7 @@
             <th>Descripción</th>
             <th>Imagen</th>
             <th>Precio Inicial</th>
-            <th>Fecha de Caducidad</th>
+            <th>Estado</th>
             <th>Tiempo Restante</th>
             <th>Realizar Oferta</th>
         </tr>
@@ -53,10 +53,36 @@
                     <form asp-controller="Producto" asp-action="RealizarOferta" method="post">
                         <input type="hidden" name="idProducto" value="@item.IdProducto" />
                         <input type="number" name="nuevaOferta" placeholder="Nueva Oferta" required />
-                        <button type="submit" class="btn btn-success">Pujar</button>
+                        <button type="submit" class="btn btn-success" id="btn-pujar-@item.IdProducto" style="display:none;">Pujar</button>
                     </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input comprador-checkbox" data-producto-id="@item.IdProducto" />
+                            Soy Comprador
+                        </label>
+                    </div>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    document.querySelectorAll('.comprador-checkbox').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            var productoId = checkbox.getAttribute('data-producto-id');
+            var pujarButton = document.getElementById('btn-pujar-' + productoId);
+
+            // Mostrar el botón si el checkbox está marcado
+            if (checkbox.checked) {
+                pujarButton.style.display = 'inline-block';
+            } else {
+                pujarButton.style.display = 'none';
+            }
+        });
+    });
+</script>

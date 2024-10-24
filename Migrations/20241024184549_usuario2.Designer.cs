@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace SubastaWeb.Migrations
 {
     [DbContext(typeof(SubastaWebContext))]
-    partial class SubastaWebContextModelSnapshot : ModelSnapshot
+    [Migration("20241024184549_usuario2")]
+    partial class usuario2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,9 +90,6 @@ namespace SubastaWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductoModelDBOIdProducto")
-                        .HasColumnType("int");
-
                     b.Property<string>("TipoUsuario")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -98,8 +98,6 @@ namespace SubastaWeb.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductoModelDBOIdProducto");
 
                     b.ToTable("UsuarioModelDBO");
                 });
@@ -130,18 +128,6 @@ namespace SubastaWeb.Migrations
                     b.HasBaseType("SubastaWeb.Models.Producto.Producto");
 
                     b.HasDiscriminator().HasValue("Ropa");
-                });
-
-            modelBuilder.Entity("SubastaWeb.Models.Usuario.UsuarioModelDBO", b =>
-                {
-                    b.HasOne("SubastaWeb.Models.Producto.ProductoModelDBO", null)
-                        .WithMany("Ofertas")
-                        .HasForeignKey("ProductoModelDBOIdProducto");
-                });
-
-            modelBuilder.Entity("SubastaWeb.Models.Producto.ProductoModelDBO", b =>
-                {
-                    b.Navigation("Ofertas");
                 });
 #pragma warning restore 612, 618
         }

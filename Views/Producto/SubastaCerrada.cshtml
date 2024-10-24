@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<SubastaWeb.Models.Producto.Producto>
 
-<h2>Subasta Cerrada</h2>
+<h2>Subastas</h2>
 
 <table class="table">
     <thead>
@@ -9,8 +9,9 @@
             <th>Descripción</th>
             <th>Imagen</th>
             <th>Precio Inicial</th>
-            <th>Fecha de Caducidad</th>
-            <th></th>
+            <th>Estado</th>
+            <th>Tiempo Restante</th>
+            <th>Realizar Oferta</th>
         </tr>
     </thead>
     <tbody>
@@ -24,12 +25,65 @@
                 <td>@Html.DisplayFor(modelItem => item.FechaCaducidad)</td>
 
                 <td>
-                    <a class="btn btn-success" asp-action="RealizarOferta" asp-controller="Usuario" asp-route-id="@item.IdProducto">Pujar</a>
+                    <div class="countdown" id="countdown-@item.IdProducto">00:00</div>
+                    <script>
+                        // Aquí puedes añadir un script para calcular el tiempo restante
+                        const endTime = new Date(Date.now() + 5 * 60 * 1000); // Ejemplo para 5 minutos
+                        const countdownElement = document.getElementById('countdown-@item.IdProducto');
+
+                        const updateCountdown = () => {
+                            const now = new Date();
+                            const distance = endTime - now;
+
+                            if (distance < 0) {
+                                countdownElement.textContent = "00:00";
+                                clearInterval(timer);
+                                return;
+                            }
+
+                            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                            countdownElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                        };
+
+                        const timer = setInterval(updateCountdown, 1000);
+                    </script>
                 </td>
                 <td>
-                    <a class="btn btn-outline-success" asp-action="Details" asp-route-id="@item.IdProducto">Ver detalles</a>
+                    <form asp-controller="UsuarioModelDBO" asp-action="RealizarOferta" method="post">
+                        <input type="hidden" name="idProducto" value="@item.IdProducto" />
+                        <input type="number" name="nuevaOferta" placeholder="Nueva Oferta" required />
+                        <input type="hidden" name="usuario" value="UsuarioPrueba" />
+                        <button type="submit" class="btn btn-success" id="btn-pujar-@item.IdProducto" style="display:none;">Pujar</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input comprador-checkbox" data-producto-id="@item.IdProducto" />
+                            Soy Comprador
+                        </label>
+                    </div>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    document.querySelectorAll('.comprador-checkbox').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            var productoId = checkbox.getAttribute('data-producto-id');
+            var pujarButton = document.getElementById('btn-pujar-' + productoId);
+
+            // Mostrar el botón si el checkbox está marcado
+            if (checkbox.checked) {
+                pujarButton.style.display = 'inline-block';
+            } else {
+                pujarButton.style.display = 'none';
+            }
+        });
+    });
+</script>

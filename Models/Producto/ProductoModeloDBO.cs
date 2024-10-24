@@ -1,6 +1,8 @@
-﻿namespace SubastaWeb.Models.Producto
+﻿using SubastaWeb.Models.Usuario;
+
+namespace SubastaWeb.Models.Producto
 {
-    public class ProductoModelDBO : Producto
+    public class ProductoModelDBO    : Producto
     {
         public int IdProducto { get; set; }
         public required string Titulo { get; set; }
@@ -12,6 +14,7 @@
         public decimal PrecioFinal { get; set; }
         public DateTime? FechaCaducidad { get; set; }
         public bool EnLiquidacion { get; set; }
+        public List<UsuarioModelDBO> Ofertas { get; set; } = new List<UsuarioModelDBO>();
 
         public override void CalcularPrecioFinal()
         {

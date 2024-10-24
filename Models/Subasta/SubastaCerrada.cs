@@ -1,10 +1,12 @@
-﻿using System.Timers;
+﻿using SubastaWeb.Models.Producto;
+using SubastaWeb.Models.Usuario;
+using System.Timers;
 
 namespace SubastaWeb.Models.Subasta
 {
     public class SubastaCerrada : IStrategySubasta
     {
-        private decimal ofertaAnterior;
+        private decimal oferta;
         private DateTime ultimaOferta;
         private System.Timers.Timer timer;
 
@@ -30,6 +32,27 @@ namespace SubastaWeb.Models.Subasta
             timer.Start();
             Console.WriteLine("Subasta iniciada. Se cerrará en 5 minutos.");
         }
+
+        public void RealizarOferta(ProductoModelDBO producto, decimal oferta, UsuarioModelDBO usuario)
+        {
+            var ofertaExistente = producto.Ofertas.FirstOrDefault(o => o.Id == usuario.Id);
+
+            if (ofertaExistente != null)
+            {
+                throw new InvalidOperationException("El usuario ya ha realizado una oferta para este producto.");
+            }
+
+            var nuevaOferta = new UsuarioModelDBO
+            {
+                Id = usuario.Id,
+                Nombre = usuario.Nombre,
+                TipoUsuario = usuario.TipoUsuario,
+                oferta = (double)oferta
+            };
+
+            producto.Ofertas.Add(nuevaOferta);
+        }
+
 
         private void OnTiempoTerminado(object source, ElapsedEventArgs e)
         {

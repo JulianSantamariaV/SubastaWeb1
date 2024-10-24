@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SubastaWeb.Models.Producto;
+using SubastaWeb.Models.Usuario;
 
 public class SubastaWebContext : DbContext
 {
@@ -31,5 +32,7 @@ public class SubastaWebContext : DbContext
             .Property(p => p.PrecioFinal)
             .HasColumnType("decimal(10, 2)"); // Change 18 and 2 as needed
     }
+
+public DbSet<SubastaWeb.Models.Usuario.UsuarioModelDBO> UsuarioModelDBO { get; set; } = default!;
 
 }

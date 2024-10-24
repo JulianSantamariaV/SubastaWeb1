@@ -1,4 +1,6 @@
-﻿using System.Timers;
+﻿using SubastaWeb.Models.Producto;
+using SubastaWeb.Models.Usuario;
+using System.Timers;
 
 namespace SubastaWeb.Models.Subasta
 {
@@ -41,6 +43,11 @@ namespace SubastaWeb.Models.Subasta
         }
 
         public void RealizarOferta(decimal oferta)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RealizarOferta(ProductoModelDBO producto, decimal oferta, UsuarioModelDBO usuario)
         {
             throw new NotImplementedException();
         }
