@@ -1,0 +1,61 @@
+﻿@model IEnumerable<SubastaWeb.Models.Producto.Producto>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="col-xs-12">
+        <div class="page-header">
+            <h1>Subastados</h1>
+        </div>
+
+        <div class="carousel slide" id="myCarousel">
+            <div class="carousel-inner">
+                @if (!Model.Any())
+                {
+                    <p>No hay productos disponibles.</p>
+                }
+                else
+                {
+                    for (int i = 0; i < Model.Count(); i += 4)
+                    {
+                        var productoToShow = Model.Skip(i).Take(4);
+                        <div class="item @(i == 0 ? "active" : "")">
+                            <ul class="thumbnails no-bullets">
+                                @foreach (var producto in productoToShow)
+                                {
+                                    <li class="col-sm-3">
+                                        <div class="fff">
+                                            <div class="thumbnail">
+                                                <a href="#">
+                                                    <img src="@producto.ImgUrl ?? " ruta /a/imagen/default.jpg"" alt="" style="width: 300px; height: 300px; object-fit: cover;">
+                                                </a>
+                                            </div>
+                                            <div class="caption">
+                                                <h4>@producto.Titulo ?? "Título no disponible"</h4>
+                                                <p>@producto.Descripcion ?? "Descripción no disponible"</p>
+                                                <a class="btn btn-success" href="#">Pujar</a>
+                                                <a class="btn btn-success" asp-controller="Producto" asp-action="Details" asp-route-id="@producto.IdProducto">Detalle</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                }
+            </div>
+
+            <nav>
+                <ul class="control-box pager">
+                    <li><a data-slide="prev" href="#myCarousel"><i class="glyphicon glyphicon-chevron-left"></i></a></li>
+                    <li><a data-slide="next" href="#myCarousel"><i class="glyphicon glyphicon-chevron-right"></i></a></li>
+                </ul>
+            </nav>
+        </div><!-- /#myCarousel -->
+    </div><!-- /.col-xs-12 -->
+</div><!-- /.container -->
+
+<div class="container-fluid">
+    <a class="btn btn-success" asp-controller="Producto" asp-action="Create">Crear Producto</a>
+</div>

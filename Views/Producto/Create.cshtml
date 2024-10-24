@@ -1,0 +1,106 @@
+﻿@model SubastaWeb.Models.Producto.Producto
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Titulo" class="control-label"></label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImgUrl" class="control-label"></label>
+                <input asp-for="ImgUrl" class="form-control" />
+                <span asp-validation-for="ImgUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Categoria" class="control-label"></label>
+                <select asp-for="Categoria" class="form-control" id="Categoria">
+                    <option value="">Seleccione una categoría</option>
+                    <option value="ropa">Ropa</option>
+                    <option value="electronica">Electrónica</option>
+                    <option value="alimento">Alimento</option>
+                </select>
+                <span asp-validation-for="Categoria" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoDeSubasta" class="control-label"></label>
+                <input asp-for="TipoDeSubasta" class="form-control" />
+                <span asp-validation-for="TipoDeSubasta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecioInicial" class="control-label"></label>
+                <input asp-for="PrecioInicial" class="form-control" />
+                <span asp-validation-for="PrecioInicial" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="FechaCaducidadGroup" style="display:none;">
+                <label asp-for="FechaCaducidad" class="control-label"></label>
+                <input asp-for="FechaCaducidad" class="form-control" />
+                <span asp-validation-for="FechaCaducidad" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check" id="EnLiquidacionGroup" style="display:none;">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="EnLiquidacion" /> @Html.DisplayNameFor(model => model.EnLiquidacion)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const categoria = document.getElementById('Categoria');
+            const fechaCaducidadGroup = document.getElementById('FechaCaducidadGroup');
+            const enLiquidacionGroup = document.getElementById('EnLiquidacionGroup');
+
+            function toggleFields() {
+                const selectedCategory = categoria.value;
+
+                // Mostrar "FechaCaducidad" solo si la categoría es "alimento"
+                if (selectedCategory === 'alimento') {
+                    fechaCaducidadGroup.style.display = 'block';
+                } else {
+                    fechaCaducidadGroup.style.display = 'none';
+                }
+
+                // Mostrar "EnLiquidacion" solo si la categoría es "ropa"
+                if (selectedCategory === 'ropa') {
+                    enLiquidacionGroup.style.display = 'block';
+                } else {
+                    enLiquidacionGroup.style.display = 'none';
+                }
+            }
+
+            // Ejecutar la función cuando cambie el valor de categoría
+            categoria.addEventListener('change', toggleFields);
+
+            // Ejecutar al cargar la página por si ya hay algún valor seleccionado
+            toggleFields();
+        });
+    </script>
+}
