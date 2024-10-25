@@ -128,7 +128,7 @@ namespace SubastaWeb.Controllers
 
         // POST: Logout
         [HttpPost]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Salir()
         {
             // Sign out the user
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
