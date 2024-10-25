@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SubastaWeb.styles.css" asp-append-version="true" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 </head>
 <body>
     <header>
@@ -15,7 +16,7 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Subasta</a>
 
                 <div class="dropdown">
-                    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categorias</button>
+                    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categorias</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#">Alimento</a>
                         <a class="dropdown-item" href="#">Ropa</a>
@@ -26,12 +27,10 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <div>
-                    <a class="btn btn-outline-success" asp-controller="UsuarioModelDBO" asp-action="Mi Perfil">Mi Perfil</a>
+                    <a class="btn btn-outline-success" asp-controller="UsuarioModelDBO" asp-action="Mi Perfil">Registrarse</a>
                 </div>
                 <div>
-                    <form asp-controller="UsuarioModelDBO" asp-action="Salir" method="post">
-                        <button type="submit" class="btn btn-outline-danger">Cerrar Sesión</button>
-                    </form>
+                    <a class="btn btn-outline-success" asp-controller="UsuarioModelDBO" asp-action="Salir">Ingresar</a>
                 </div>
             }
             else
@@ -43,7 +42,6 @@
                     <a class="btn btn-outline-success" asp-controller="UsuarioModelDBO" asp-action="Ingresar">Ingresar</a>
                 </div>
             }
-
             <div class="mx-sm-auto">
                 <div class="d-none d-md-inline">
                     <form class="form-inline" id="search-form">
@@ -62,6 +60,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="~/js/carousel.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
